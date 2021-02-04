@@ -1,0 +1,7 @@
+# Add the test source files to CMake so that CLion recognises them properly.
+# File won't be required once issue here is closed: https://youtrack.jetbrains.com/issue/CPP-21173
+FILE(GLOB_RECURSE TEST_LIST
+    ${CMAKE_CURRENT_LIST_DIR}/test/*.*
+)
+
+list(APPEND SRC_LIST ${TEST_LIST})
