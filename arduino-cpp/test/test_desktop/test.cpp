@@ -44,10 +44,10 @@ namespace infra {
 }
 
 void shouldDecodeIrSignal() {
-    uint32_t timePassed { 0 };
+    uint32_t time_passed { 0 };
     for (const auto sensor_diff : sensor_data) {
-        timePassed += sensor_diff;
-        NEXT_MICROS = timePassed;
+        time_passed += sensor_diff;
+        NEXT_MICROS = time_passed;
         infra::listenToIrReceivePin();
     }
     uint32_t decodedValue = infra::checkForValue();

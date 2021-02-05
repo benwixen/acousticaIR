@@ -25,31 +25,31 @@ void setup() {
     digitalWrite(AUDIO_MODE_PIN, LOW);
 }
 
-uint32_t receivedValue { 0 };
+uint32_t received_value { 0 };
 
 void loop() {
-    receivedValue = infra::checkForValue();
-    if (receivedValue != 0) {
+    received_value = infra::checkForValue();
+    if (received_value != 0) {
         Serial.print(F("Data="));
-        Serial.print(receivedValue);
+        Serial.print(received_value);
         Serial.println();
-        if (receivedValue == 3'772'790'473) {
+        if (received_value == 3'772'790'473) {
             Serial.println(F("Power"));
             digitalWrite(POWER_TOGGLE_PIN, HIGH);
             delay(500);
             digitalWrite(POWER_TOGGLE_PIN, LOW);
             delay(1000);
-        } else if (receivedValue == 3'772'833'823) {
+        } else if (received_value == 3'772'833'823) {
             Serial.println(F("Volume up"));
             digitalWrite(VOLUME_UP_PIN, HIGH);
             delay(250);
             digitalWrite(VOLUME_UP_PIN, LOW);
-        } else if (receivedValue == 3'772'829'743) {
+        } else if (received_value == 3'772'829'743) {
             Serial.println(F("Volume down"));
             digitalWrite(VOLUME_DOWN_PIN, HIGH);
             delay(250);
             digitalWrite(VOLUME_DOWN_PIN, LOW);
-        } else if (receivedValue == 3'772'803'223) {
+        } else if (received_value == 3'772'803'223) {
             Serial.println(F("Mode"));
             digitalWrite(AUDIO_MODE_PIN, HIGH);
             delay(500);

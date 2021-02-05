@@ -35,10 +35,10 @@ namespace infra {
         Reset
     };
 
-    inline MatchResult matchDifference(uint8_t markCounter, uint32_t difference) {
-        if (markCounter < LEADING_MARKS) {
+    inline MatchResult matchDifference(uint8_t mark_counter, uint32_t difference) {
+        if (mark_counter < LEADING_MARKS) {
             return isLongMark(difference) ? MatchResult::SkipAhead : MatchResult::Reset;
-        } else if (markCounter % 2 == 0) {
+        } else if (mark_counter % 2 == 0) {
             return isShortMark(difference) ? MatchResult::SkipAhead : MatchResult::Reset;
         } else if (isShortMark(difference)) {
             return MatchResult::ByteZero;
@@ -49,52 +49,52 @@ namespace infra {
         }
     }
 
-    inline uint8_t bitIndex(uint8_t markCounter) {
-        return NUMBER_OF_BITS - (markCounter / 2);
+    inline uint8_t bitIndex(uint8_t mark_counter) {
+        return NUMBER_OF_BITS - (mark_counter / 2);
     }
 
-    inline bool didReachEnd(uint8_t markCounter) {
-        return markCounter == NUMBER_OF_MARKS;
+    inline bool didReachEnd(uint8_t mark_counter) {
+        return mark_counter == NUMBER_OF_MARKS;
     }
 
     volatile uint32_t data;
-    volatile uint8_t markCounter { 0 };
-    volatile uint32_t lastTime { 0 };
-    volatile uint32_t currentTime;
+    volatile uint8_t mark_counter { 0 };
+    volatile uint32_t last_time { 0 };
+    volatile uint32_t current_time;
     volatile uint32_t diff;
 
     void listenToIrReceivePin() {
-        if (didReachEnd(markCounter)) return;
+        if (didReachEnd(mark_counter)) return;
 
-        currentTime = micros();
-        diff = currentTime - lastTime;
-        lastTime = currentTime;
+        current_time = micros();
+        diff = current_time - last_time;
+        last_time = current_time;
 
-        auto result = matchDifference(markCounter, diff);
+        auto result = matchDifference(mark_counter, diff);
         switch (result) {
             case MatchResult::SkipAhead:
-                markCounter++;
+                mark_counter++;
                 break;
             case MatchResult::ByteZero:
-                ::clearBit(data, bitIndex(markCounter));
-                markCounter++;
+                ::clearBit(data, bitIndex(mark_counter));
+                mark_counter++;
                 break;
             case MatchResult::ByteOne:
-                ::setBit(data, bitIndex(markCounter));
-                markCounter++;
+                ::setBit(data, bitIndex(mark_counter));
+                mark_counter++;
                 break;
             case MatchResult::Reset:
-                markCounter = 0;
+                mark_counter = 0;
                 break;
         }
     }
 
-    void initInfra(uint8_t receivePin) {
-        attachInterrupt(digitalPinToInterrupt(receivePin), listenToIrReceivePin, CHANGE);
+    void initInfra(uint8_t receive_pin) {
+        attachInterrupt(digitalPinToInterrupt(receive_pin), listenToIrReceivePin, CHANGE);
     }
 
     uint32_t checkForValue() {
-        if (didReachEnd(markCounter)) {
+        if (didReachEnd(mark_counter)) {
             return data;
         } else {
             return 0;
@@ -102,6 +102,6 @@ namespace infra {
     }
 
     void resume() {
-        infra::markCounter = 0;
+        infra::mark_counter = 0;
     }
 }

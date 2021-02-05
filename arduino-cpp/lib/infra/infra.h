@@ -8,7 +8,7 @@
 #endif
 
 namespace infra {
-    void initInfra(uint8_t receivePin);
+    void initInfra(uint8_t receive_pin);
     uint32_t checkForValue();
     void resume();
 }
