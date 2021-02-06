@@ -39,10 +39,10 @@ namespace infra {
         Reset
     };
 
-    inline MatchResult matchDifference(uint8_t markCounter, uint32_t difference) {
-        if (markCounter < LEADING_MARKS) {
+    inline MatchResult matchDifference(uint8_t mark_counter, uint32_t difference) {
+        if (mark_counter < LEADING_MARKS) {
             return isLongMark(difference) ? MatchResult::SkipAhead : MatchResult::Reset;
-        } else if (markCounter % 2 == 0) {
+        } else if (mark_counter % 2 == 0) {
             return isShortMark(difference) ? MatchResult::SkipAhead : MatchResult::Reset;
         } else if (isShortMark(difference)) {
             return MatchResult::ByteZero;
@@ -53,12 +53,12 @@ namespace infra {
         }
     }
 
-    inline uint8_t bitIndex(uint8_t markCounter) {
-        return NUMBER_OF_BITS - (markCounter / 2);
+    inline uint8_t bitIndex(uint8_t mark_counter) {
+        return NUMBER_OF_BITS - (mark_counter / 2);
     }
 
-    inline bool didReachEnd(uint8_t markCounter) {
-        return markCounter == NUMBER_OF_MARKS;
+    inline bool didReachEnd(uint8_t mark_counter) {
+        return mark_counter == NUMBER_OF_MARKS;
     }
 
     volatile uint32_t data;
