@@ -16,9 +16,9 @@ namespace {
 }
 
 namespace infra {
-    static const uint8_t LEADING_MARKS = 2;
-    static const uint8_t NUMBER_OF_BITS = 32;
-    static const uint8_t NUMBER_OF_MARKS = LEADING_MARKS + (NUMBER_OF_BITS * 2);
+    constexpr uint8_t LEADING_MARKS { 2 };
+    constexpr uint8_t NUMBER_OF_BITS { 32 };
+    constexpr uint8_t NUMBER_OF_MARKS { LEADING_MARKS + (NUMBER_OF_BITS * 2) };
 
     inline bool isShortMark(uint32_t difference) {
         return difference > 450 && difference < 650;
